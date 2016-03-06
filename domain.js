@@ -124,6 +124,10 @@ class Garage {
         });  
     }
     
+    countLevels(){
+        return this.levels.length;
+    }
+    
     countFreeCarSlots(){
         return this.levels.reduce(function(acc, cur){
             return acc + cur.countFreeCarSlots();         

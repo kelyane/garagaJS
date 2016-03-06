@@ -380,7 +380,11 @@ describe("GarageJS", function() {
             expect(garage.filterByMotobikes()).to.deep.equal(vehicleList);
         });
         
-        
+        it("amount of levels", function() {
+            var garage = new Garage([[1,5],[3,2]]);
+
+            expect(garage.countLevels()).to.equal(2);
+        });
         
                 
     });
