@@ -59,8 +59,64 @@ describe("GarageJS", function() {
 
         });
         
-        //TODO:Test to remove vehicle
+        it("remove 1 parked car", function() {
+            var level = new Level(2,35);             
+            level.tryToParkVehicle(new Vehicle("ZM - 1345","car"));
+            level.tryToParkVehicle(new Vehicle("K - X 324","car"));
+            level.tryToParkVehicle(new Vehicle("X - 111","car"));
+            level.tryToParkVehicle(new Vehicle("LA - X 52","motobike"));
+                        
+            expect(level.tryToUnparkVehicle("K - X 324")).to.be.ok;
+            
+            expect(level.countFreeCarSlots()).to.equal(1);
+            expect(level.countFreeMotobikeSlots()).to.equal(34);
+
+        });
         
+        it("remove 1 parked motobike", function() {
+            var level = new Level(2,2);             
+            level.tryToParkVehicle(new Vehicle("ZM - 1345","car"));
+            level.tryToParkVehicle(new Vehicle("K - X 324","car"));
+            level.tryToParkVehicle(new Vehicle("LA - X 52","motobike"));
+            level.tryToParkVehicle(new Vehicle("KL - K 26","motobike"));
+            level.tryToParkVehicle(new Vehicle("LOM - 8970","motobike"));
+                        
+            expect(level.tryToUnparkVehicle("LA - X 52")).to.be.ok;
+            
+            expect(level.countFreeCarSlots()).to.equal(0);
+            expect(level.countFreeMotobikeSlots()).to.equal(1);
+
+        });
+        
+        it("try to remove 1 unparked car ", function() {
+            var level = new Level(2,35);             
+            level.tryToParkVehicle(new Vehicle("ZM - 1345","car"));
+            level.tryToParkVehicle(new Vehicle("K - X 324","car"));
+            level.tryToParkVehicle(new Vehicle("X - 111","car"));
+            level.tryToParkVehicle(new Vehicle("LA - X 52","motobike"));
+                        
+            expect(level.tryToUnparkVehicle("X - 111")).to.not.be.ok;
+            
+            expect(level.countFreeCarSlots()).to.equal(0);
+            expect(level.countFreeMotobikeSlots()).to.equal(34);
+
+        });
+        
+        it("try to remove 2 parked cars ", function() {
+            var level = new Level(2,35);             
+            level.tryToParkVehicle(new Vehicle("ZM - 1345","car"));
+            level.tryToParkVehicle(new Vehicle("K - X 324","car"));
+            level.tryToParkVehicle(new Vehicle("X - 111","car"));
+            level.tryToParkVehicle(new Vehicle("LA - X 52","motobike"));
+                        
+            expect(level.tryToUnparkVehicle("ZM - 1345")).to.be.ok;
+            expect(level.tryToUnparkVehicle("K - X 324")).to.be.ok;
+
+            expect(level.countFreeCarSlots()).to.equal(2);
+            expect(level.countFreeMotobikeSlots()).to.equal(34);
+
+        });
+
         it("list all parked cars", function() {
             var level = new Level(2,35);             
             level.tryToParkVehicle(new Vehicle("ZM - 1345","car"));
@@ -73,6 +129,65 @@ describe("GarageJS", function() {
             ];
             
             expect(level.listAllParkedCars()).to.deep.equal(carList);
+        });
+        
+        it("list all parked cars after some cars were uparked ", function() {
+            var level = new Level(2,35);             
+            level.tryToParkVehicle(new Vehicle("ZM - 1345","car"));
+            level.tryToParkVehicle(new Vehicle("K - X 324","car"));
+            level.tryToParkVehicle(new Vehicle("X - 111","car"));
+            level.tryToParkVehicle(new Vehicle("LA - X 52","motobike"));
+                        
+            level.tryToUnparkVehicle("ZM - 1345");
+            
+            var carList = [
+                {licensePlate: "K - X 324", type: "car", slot: 1} 
+            ];
+            
+            expect(level.listAllParkedCars()).to.deep.equal(carList);
+
+            expect(level.countFreeCarSlots()).to.equal(1);
+            expect(level.countFreeMotobikeSlots()).to.equal(34);
+
+        });
+        
+        it("list all parked motobikes", function() {
+            var level = new Level(2,2);             
+            level.tryToParkVehicle(new Vehicle("ZM - 1345","car"));
+            level.tryToParkVehicle(new Vehicle("LA - X 52","motobike"));
+            level.tryToParkVehicle(new Vehicle("KL - K 26","motobike"));
+            level.tryToParkVehicle(new Vehicle("LOM - 8970","motobike"));
+                                  
+            var carList = [
+                {licensePlate: "LA - X 52", type: "motobike", slot: 2},
+                {licensePlate: "KL - K 26", type: "motobike", slot: 3} 
+            ];
+            
+            expect(level.listAllParkedMotobike()).to.deep.equal(carList);
+
+            expect(level.countFreeCarSlots()).to.equal(1);
+            expect(level.countFreeMotobikeSlots()).to.equal(0);
+
+        });
+        
+        it("list all parked motobikes after some motobikes were uparked ", function() {
+            var level = new Level(2,2);             
+            level.tryToParkVehicle(new Vehicle("ZM - 1345","car"));
+            level.tryToParkVehicle(new Vehicle("LA - X 52","motobike"));
+            level.tryToParkVehicle(new Vehicle("KL - K 26","motobike"));
+            level.tryToParkVehicle(new Vehicle("LOM - 8970","motobike"));
+                        
+            level.tryToUnparkVehicle("LA - X 52");
+            
+            var carList = [
+                {licensePlate: "KL - K 26", type: "motobike", slot: 3} 
+            ];
+            
+            expect(level.listAllParkedMotobike()).to.deep.equal(carList);
+
+            expect(level.countFreeCarSlots()).to.equal(1);
+            expect(level.countFreeMotobikeSlots()).to.equal(1);
+
         });
         
     });

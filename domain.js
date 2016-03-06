@@ -2,37 +2,87 @@
 
 class Level {
     
-    constructor(carSlots,motobikeSlots){
-        this.totalCarSlots = carSlots;
-        this.totalMotobikeSlots = motobikeSlots;
-        this.carFreeSlots = this.totalCarSlots;
-        this.motobikeFreeSlots = this.totalMotobikeSlots;
+    constructor(carSlots,motobikeSlots){        
+        this.totalCarSlots = new Array(carSlots).fill(null);
+        this.totalMotobikeSlots = new Array(motobikeSlots).fill(null);
     }
     
     countFreeCarSlots(){
-        return this.carFreeSlots;
+        return this.totalCarSlots.reduce(function(acc, cur) { 
+            return acc + ( cur === null ? 1 : 0)          
+        }, 0);
     }
     
     countFreeMotobikeSlots(){
-        return this.motobikeFreeSlots;
+        return this.totalMotobikeSlots.reduce(function(acc, cur) { 
+            return acc + ( cur === null ? 1 : 0)
+        }, 0);
     }    
-    
+      
     tryToParkVehicle(vehicle){
-        if(vehicle.type == "car" && this.carFreeSlots > 0){
-            this.carFreeSlots--;
-            return true;
-        }else if(vehicle.type == "motobike" && this.motobikeFreeSlots > 0){
-            this.motobikeFreeSlots--;
+        if(vehicle.getType() == "car"){
+            var freeSlot = this.totalCarSlots.findIndex(function(slot){
+                return slot == null;
+            });
+            if( freeSlot != -1){
+                this.totalCarSlots[freeSlot] = vehicle;
+                return true;
+            }
+            return false;
+        }else if(vehicle.getType() == "motobike"){
+            var freeSlot = this.totalMotobikeSlots.findIndex(function(slot){
+                return slot == null;
+            });
+            if( freeSlot != -1){
+                this.totalMotobikeSlots[freeSlot] = vehicle;
+                return true;
+            }
+            return false
+        }        
+             
+        return false;
+    }
+    
+    tryToUnparkVehicle(licensePlate){
+        var parkedCar = this.totalCarSlots.findIndex(function(slot){
+            return slot != null && slot.getLicensePlate() === licensePlate;
+        });
+        
+        if (parkedCar == -1){
+            var parkedMotobike = this.totalMotobikeSlots.findIndex(function(slot){
+                return slot != null && slot.getLicensePlate() === licensePlate;
+            });
+            
+            if (parkedMotobike != -1){
+                this.totalMotobikeSlots[parkedMotobike] = null;
+                return true;
+            }
+            
+            return false;
+            
+        }else{
+            this.totalCarSlots[parkedCar] = null;
             return true;
         }
         
         return false;
     }
     
-    listAllParkedCars(){
-        var carList = [];
-        
-        return carList;
+    listAllParkedCars(){        
+        return this.totalCarSlots.map(function(slot,i){
+            return slot != null ? { licensePlate: slot.getLicensePlate(), type: slot.getType(), slot: i} : null; 
+        }).filter(function(e){
+            return e != null;
+        });        
+    }
+    
+    listAllParkedMotobike(){  
+        var self = this;
+        return this.totalMotobikeSlots.map(function(slot,i){
+            return slot != null ? { licensePlate: slot.getLicensePlate(), type: slot.getType(), slot: (self.totalCarSlots.length + i)} : null; 
+        }).filter(function(e){
+            return e != null;
+        });        
     }
 }
 
