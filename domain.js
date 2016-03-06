@@ -2,21 +2,37 @@
 
 class Level {
     
-    constructor(carSlots,motocycleSlots){
-        this.carSlots = carSlots;
-        this.motocycleSlots = motocycleSlots;
+    constructor(carSlots,motobikeSlots){
+        this.totalCarSlots = carSlots;
+        this.totalMotobikeSlots = motobikeSlots;
+        this.carFreeSlots = this.totalCarSlots;
+        this.motobikeFreeSlots = this.totalMotobikeSlots;
     }
     
-    countFreeCarSlot(){
-        return this.carSlots;
+    countFreeCarSlots(){
+        return this.carFreeSlots;
     }
     
-    countFreeMotocycleSlot(){
-        return this.motocycleSlots;
-    }
+    countFreeMotobikeSlots(){
+        return this.motobikeFreeSlots;
+    }    
     
-    addVehicle(Vehicle vehicle){
+    tryToParkVehicle(vehicle){
+        if(vehicle.type == "car" && this.carFreeSlots > 0){
+            this.carFreeSlots--;
+            return true;
+        }else if(vehicle.type == "motobike" && this.motobikeFreeSlots > 0){
+            this.motobikeFreeSlots--;
+            return true;
+        }
         
+        return false;
+    }
+    
+    listAllParkedCars(){
+        var carList = [];
+        
+        return carList;
     }
 }
 
