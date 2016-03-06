@@ -2,9 +2,10 @@
 
 class Level {
     
-    constructor(carSlots,motobikeSlots){        
+    constructor(carSlots,motobikeSlots,levelNumber){        
         this.totalCarSlots = new Array(carSlots).fill(null);
         this.totalMotobikeSlots = new Array(motobikeSlots).fill(null);
+        this.levelNumber = levelNumber;
     }
     
     countFreeCarSlots(){
@@ -69,20 +70,33 @@ class Level {
     }
     
     listAllParkedCars(){        
-        return this.totalCarSlots.map(function(slot,i){
-            return slot != null ? { licensePlate: slot.getLicensePlate(), type: slot.getType(), slot: i} : null; 
-        }).filter(function(e){
-            return e != null;
-        });        
+        return this.filterCarsByLicencePlate("");
     }
     
     listAllParkedMotobike(){  
+        return this.filterMotobikeByLicensePlate("");
+    }
+    
+    filterByLicensePlate(criteria){
+        return this.filterCarsByLicencePlate(criteria).concat(this.filterMotobikeByLicensePlate(criteria));    
+    }
+    
+    filterCarsByLicencePlate(criteria){
+        var self = this;
+        return this.totalCarSlots.map(function(slot,i){
+            return slot != null && slot.getLicensePlate().search(criteria) != -1 ? { licensePlate: slot.getLicensePlate(), type: slot.getType(), slot: i, level: self.levelNumber} : null; 
+        }).filter(function(e){
+            return e != null ;
+        });  
+    }
+    
+    filterMotobikeByLicensePlate(criteria){
         var self = this;
         return this.totalMotobikeSlots.map(function(slot,i){
-            return slot != null ? { licensePlate: slot.getLicensePlate(), type: slot.getType(), slot: (self.totalCarSlots.length + i)} : null; 
+            return slot != null && slot.getLicensePlate().search(criteria) != -1 ? { licensePlate: slot.getLicensePlate(), type: slot.getType(), slot: (self.totalCarSlots.length + i), level: self.levelNumber} : null; 
         }).filter(function(e){
-            return e != null;
-        });        
+            return e != null ;
+        });  
     }
 }
 
@@ -101,4 +115,58 @@ class Vehicle {
         return this.type;
     }
 
+}
+
+class Garage {
+    constructor(infoLevels){
+        this.levels = infoLevels.map(function(infoLevel,i){
+            return new Level(infoLevel[0], infoLevel[1],(i+1));
+        });  
+    }
+    
+    countFreeCarSlots(){
+        return this.levels.reduce(function(acc, cur){
+            return acc + cur.countFreeCarSlots();         
+        },0);
+    }
+    
+    countFreeMotobikeSlots(){
+        return this.levels.reduce(function(acc, cur){
+            return acc + cur.countFreeMotobikeSlots();         
+        },0);
+    }
+    
+    tryToParkVehicle(vehicle){
+        return this.levels.findIndex(function(level){
+            return level.tryToParkVehicle(vehicle);
+        }) != -1; 
+    }
+    
+    tryToUnparkVehicle(licensePlate){
+        return this.levels.findIndex(function(level){
+            return level.tryToUnparkVehicle(licensePlate);
+        }) != -1;
+    }
+    
+    filterByLicensePlate(criteria){
+        return this.levels.reduce(function(acc, curLevel){
+            return acc.concat(curLevel.filterByLicensePlate(criteria));
+        },[]);
+    }
+    
+    filterByLevel(levelNumber){
+        return this.levels[levelNumber-1].filterByLicensePlate("");
+    }
+    
+    filterByCars(){
+        return this.levels.reduce(function(acc, curLevel){
+            return acc.concat(curLevel.listAllParkedCars());
+        },[]);
+    }
+    
+    filterByMotobikes(){
+        return this.levels.reduce(function(acc, curLevel){
+            return acc.concat(curLevel.listAllParkedMotobike());
+        },[]);
+    }
 }
