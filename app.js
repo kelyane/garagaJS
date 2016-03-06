@@ -16,10 +16,9 @@
             $scope.vehicles = garage.filterByMotobikes();
         };
                 
-        $scope.filterByLevel = function($event){
+        $scope.filterByLevel = function(level){
             $scope.licensePlate = "";
-            console.log($event);
-            $scope.vehicles = garage.filterByLevel();
+            $scope.vehicles = garage.filterByLevel(level);
             
         };
         

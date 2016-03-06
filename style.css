@@ -1,0 +1,66 @@
+header{
+    width: 100%;
+    border-bottom: 1px solid #dfdfdf;
+    border-top: 10px solid #000000;
+    padding: 20px;
+    font-size: 1.5em;
+}
+
+header .fa.fa-bars{
+    color: blue;
+    margin-right: 20px;
+}
+
+.sidebar-left{
+    display: inline-block;
+    width: 33%;
+    padding: 30px;
+}
+
+.sidebar-left input[type=search]{
+    max-width: 200px;
+}
+
+.content{
+    display: inline-block;
+    width: 66%;
+    padding: 20px;
+}
+
+h2{
+    color: #000000;
+    font-size: 1em;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.filter-levels li, .filter-type li{
+    color: red;
+}
+
+.vehicles li{
+    background-color: #dfdfdf;
+    font-size: 1em;   
+    list-style: none;
+    padding: 10px;
+    margin: 10px;
+}
+
+.vehicles li div{
+    display: inline-block;
+    width: 49%;
+}
+
+.vehicles li .left-side{
+    text-align: left;
+    padding-left: 20px;
+}
+
+.vehicles li .right-side{
+    text-align: right;
+}
+
+.vehicles, .vehicles li p{
+    padding: 0;
+    margin: 0;
+}

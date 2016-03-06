@@ -19,22 +19,27 @@
         <script src="angular.min.js"></script>
         <script src="app.js"></script>
         
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="style.css" />
+
     </head>
     <body >
         <header>
             <div>
-                <button> <i class="fa fa-bars"></i> Vehicles </button>
+                <span> <i class="fa fa-bars"></i> Vehicles </span>
+                
             </div>
         </header>
         
-        <div ng-controller="ListSlotsController as garageJS">
-            <div class="sidebar-left">
+        <div ng-controller="ListSlotsController as garageJS" class="row">
+            <div class="sidebar-left col-md-3">
                 <div class="search">
-                    <input type="text" ng-model="licensePlate" ng-change="filterByLicensePlate()" >
+                    <input type="search" ng-model="licensePlate" ng-change="filterByLicensePlate()" name="searchByLicensePlate" class="form-control" placeholder="Search for...">
                 </div>
                 <div class="filter-levels">
+                    <h2>Levels</h2>
                     <ul>
-                        <li ng-repeat="level in levels">
+                        <li ng-repeat="level in levels">                            
                             <span ng-click="filterByLevel({{$index + 1}})"> Level {{$index + 1}}</span>
                         </li>
                         <!--<li ng-click="filterByLevel(1)">Level 1</li>
@@ -42,19 +47,24 @@
                     </ul>
                 </div>
                 <div class="filter-type">
+                    <h2>Type</h2>
                     <ul>
                         <li ng-click="filterByCars()">Cars</li>
                         <li ng-click="filterByMotobikes()">Motobikes</li>
                     </ul>
                 </div>
             </div>
-            <div class="content" >
-                <ul>
-                    <li ng-repeat="vehicle in vehicles">
-                        <span>{{vehicle.licensePlate}}</span>
-                        <span>{{vehicle.type}}</pan>
-                        <span>Level {{vehicle.level}}</span>
-                        <span>Slot {{vehicle.slot}}</span>
+            <div class="content col-md-9" >
+                <ul class="vehicles">
+                    <li ng-repeat="vehicle in vehicles" class="">
+                        <div class="left-side">
+                            <p>{{vehicle.licensePlate}}</p>
+                            <p>{{vehicle.type}}</p>
+                        </div>
+                        <div class="right-side">
+                            <p>Level {{vehicle.level}}</p>
+                            <p>Slot: {{vehicle.slot}}</p>
+                        </div>
                     </li>
                 </ul>
             </div>
