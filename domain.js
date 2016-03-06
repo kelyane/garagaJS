@@ -15,4 +15,24 @@ class Level {
         return this.motocycleSlots;
     }
     
+    addVehicle(Vehicle vehicle){
+        
+    }
+}
+
+class Vehicle {
+    
+    constructor(licensePlate, type){
+        this.licensePlate = licensePlate;
+        this.type = type;
+    }
+    
+    getLicensePlate(){
+        return this.licensePlate;
+    }
+    
+    getType(){
+        return this.type;
+    }
+
 }
