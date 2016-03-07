@@ -17,7 +17,9 @@
         </script>
         <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
         <script src="angular.min.js"></script>
-        <script src="app.js"></script>
+        <script data-require="angular-ui-bootstrap@0.11.0" data-semver="0.11.0" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
+        <script src="app.js"></script>        
+
         
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="style.css" />
@@ -40,7 +42,7 @@
                     <h2>Levels</h2>
                     <ul>
                         <li ng-repeat="level in levels">                            
-                            <span ng-click="filterByLevel({{$index + 1}})"> Level {{$index + 1}}</span>
+                            <span ng-click="filterByLevel()"> Level {{$index + 1}}</span>
                         </li>
                         <!--<li ng-click="filterByLevel(1)">Level 1</li>
                         <li ng-click="filterByLevel(2)">Level 2</li>-->
@@ -55,8 +57,11 @@
                 </div>
             </div>
             <div class="content col-md-9" >
+                               
                 <ul class="vehicles">
-                    <li ng-repeat="vehicle in vehicles" class="">
+                    <h2> {{currentPage}} / {{vehicles.length / itemsPerPage}} - {{vehicles.length}} vehicles </h2>
+
+                    <li ng-repeat="vehicle in filteredVehicles" class="">                    
                         <div class="left-side">
                             <p>{{vehicle.licensePlate}}</p>
                             <p>{{vehicle.type}}</p>
@@ -66,7 +71,17 @@
                             <p>Slot: {{vehicle.slot}}</p>
                         </div>
                     </li>
-                </ul>
+                </ul>                
+                
+                <pagination
+                    max-size="5" 
+                    items-per-page="itemsPerPage"
+                    total-items="vehicles.length" 
+                    previous-text="<"
+                    next-text=">"
+                    ng-model="currentPage" 
+                    ng-change="pageChanged()"></pagination>
+                        
             </div>
         </div>
     </body>
