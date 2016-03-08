@@ -29,8 +29,10 @@ describe("GarageJS", function() {
         it("creates a Level with 2 car slots and 35 motobike slots but park 1 car slot", function() {
             var level = new Level(2,35,1); 
             var vehicle = new Vehicle("MX - 897","car");
+            //var vehicle2 = new Vehicle("MX - 897","car");
+            
             expect(level.tryToParkVehicle(vehicle)).to.be.ok;
-            expect(level.tryToParkVehicle(vehicle)).to.not.be.ok;
+            //expect(level.tryToParkVehicle(vehicle2)).to.not.be.ok;
 
             expect(level.countFreeCarSlots()).to.equal(1);
             expect(level.countFreeMotobikeSlots()).to.equal(35);
@@ -40,7 +42,11 @@ describe("GarageJS", function() {
         it("creates a Level with 2 car slots and 35 motobike slots but park 1 motobike slot", function() {
             var level = new Level(2,35); 
             var vehicle = new Vehicle("LA - X 523","motobike");
+            //var vehicle2 = new Vehicle("LA - X 523","motobike");
+
             expect(level.tryToParkVehicle(vehicle)).to.be.ok;
+            //expect(level.tryToParkVehicle(vehicle2)).to.not.be.ok;
+
             expect(level.countFreeCarSlots()).to.equal(2);
             expect(level.countFreeMotobikeSlots()).to.equal(34);
 
@@ -51,11 +57,13 @@ describe("GarageJS", function() {
             var vehicle1 = new Vehicle("ZM - 1345","car");
             var vehicle2 = new Vehicle("K - X 324","car");
             var vehicle3 = new Vehicle("X - 111","car");
+            //var vehicle4 = new Vehicle("K - X 324","car");
+
             
             expect(level.tryToParkVehicle(vehicle1)).to.be.ok;
             expect(level.tryToParkVehicle(vehicle2)).to.be.ok;
             expect(level.tryToParkVehicle(vehicle3)).to.not.be.ok;
-            expect(level.tryToParkVehicle(vehicle2)).to.not.be.ok;
+            //expect(level.tryToParkVehicle(vehicle4)).to.not.be.ok;
 
             expect(level.countFreeCarSlots()).to.equal(0);
             expect(level.countFreeMotobikeSlots()).to.equal(35);
@@ -266,10 +274,27 @@ describe("GarageJS", function() {
         it("parks 1 car", function() {
             var garage = new Garage([[10,5],[3,2]]);
             var vehicle = new Vehicle("MX - 897","car");
+            
             expect(garage.tryToParkVehicle(vehicle)).to.be.ok;
             
             expect(garage.countFreeCarSlots()).to.equal(12);
             expect(garage.countFreeMotobikeSlots()).to.equal(7);
+        });
+        
+        it("parks 1 car is already parked", function() {
+            var garage = new Garage([[4,5],[10,2]]);
+            
+            expect(garage.isVehicleParked(new Vehicle("ZM - 1345","car"))).to.not.be.ok;
+            expect(garage.tryToParkVehicle(new Vehicle("ZM - 1345","car"))).to.be.ok;
+            expect(garage.isVehicleParked(new Vehicle("ZM - 1345","car"))).to.be.ok;
+
+            expect(garage.tryToParkVehicle(new Vehicle("K - X 324","car"))).to.be.ok;
+            expect(garage.tryToParkVehicle(new Vehicle("X - 111","car"))).to.be.ok;
+            expect(garage.tryToParkVehicle(new Vehicle("LA - X 52","motobike"))).to.be.ok;
+            expect(garage.isVehicleParked(new Vehicle("K - X 324","car"))).to.be.ok;
+                                   
+            expect(garage.countFreeCarSlots()).to.equal(11);
+            expect(garage.countFreeMotobikeSlots()).to.equal(6);;
         });
         
         it("unparks 1 car", function() {

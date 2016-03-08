@@ -19,8 +19,8 @@ class Level {
             return acc + ( cur === null ? 1 : 0)
         }, 0);
     }    
-      
-    tryToParkVehicle(vehicle){
+    
+    isVehicleParked(vehicle){
         var carParked = this.totalCarSlots.findIndex(function(slot){
                 return slot != null && slot.getLicensePlate() == vehicle.getLicensePlate();
         });
@@ -30,9 +30,10 @@ class Level {
         });
         
         //the car or the vehicle is already parked
-        if(carParked != -1 || motobikeParked != -1){
-            return false
-        }
+        return carParked != -1 || motobikeParked != -1;
+    }
+      
+    tryToParkVehicle(vehicle){        
         
         if(vehicle.getType() == "car"){
             var freeSlot = this.totalCarSlots.findIndex(function(slot){
@@ -157,8 +158,14 @@ class Garage {
         },0);
     }
     
-    tryToParkVehicle(vehicle){
+    isVehicleParked(vehicle){
         return this.levels.findIndex(function(level){
+            return level.isVehicleParked(vehicle);
+        }) != -1;
+    }
+    
+    tryToParkVehicle(vehicle){
+        return !this.isVehicleParked(vehicle) && this.levels.findIndex(function(level){
             return level.tryToParkVehicle(vehicle);
         }) != -1; 
     }
