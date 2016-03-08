@@ -21,14 +21,29 @@ class Level {
     }    
       
     tryToParkVehicle(vehicle){
+        var carParked = this.totalCarSlots.findIndex(function(slot){
+                return slot != null && slot.getLicensePlate() == vehicle.getLicensePlate();
+        });
+        
+        var motobikeParked = this.totalMotobikeSlots.findIndex(function(slot){
+                return slot != null && slot.getLicensePlate() == vehicle.getLicensePlate();
+        });
+        
+        //the car or the vehicle is already parked
+        if(carParked != -1 || motobikeParked != -1){
+            return false
+        }
+        
         if(vehicle.getType() == "car"){
             var freeSlot = this.totalCarSlots.findIndex(function(slot){
                 return slot == null;
-            });
+            });            
             if( freeSlot != -1){
                 this.totalCarSlots[freeSlot] = vehicle;
                 return true;
             }
+            
+            //there is no more car slot available
             return false;
         }else if(vehicle.getType() == "motobike"){
             var freeSlot = this.totalMotobikeSlots.findIndex(function(slot){
@@ -38,6 +53,8 @@ class Level {
                 this.totalMotobikeSlots[freeSlot] = vehicle;
                 return true;
             }
+            
+            //there is no more motobike slot available
             return false
         }        
              

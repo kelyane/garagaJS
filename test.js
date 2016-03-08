@@ -30,6 +30,8 @@ describe("GarageJS", function() {
             var level = new Level(2,35,1); 
             var vehicle = new Vehicle("MX - 897","car");
             expect(level.tryToParkVehicle(vehicle)).to.be.ok;
+            expect(level.tryToParkVehicle(vehicle)).to.not.be.ok;
+
             expect(level.countFreeCarSlots()).to.equal(1);
             expect(level.countFreeMotobikeSlots()).to.equal(35);
 
@@ -53,6 +55,7 @@ describe("GarageJS", function() {
             expect(level.tryToParkVehicle(vehicle1)).to.be.ok;
             expect(level.tryToParkVehicle(vehicle2)).to.be.ok;
             expect(level.tryToParkVehicle(vehicle3)).to.not.be.ok;
+            expect(level.tryToParkVehicle(vehicle2)).to.not.be.ok;
 
             expect(level.countFreeCarSlots()).to.equal(0);
             expect(level.countFreeMotobikeSlots()).to.equal(35);
