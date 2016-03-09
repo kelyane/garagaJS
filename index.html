@@ -37,30 +37,32 @@
         <div ng-controller="ListSlotsController as garageJS" class="row">
             <div class="sidebar-left col-md-3">
                 <div class="search">
-                    <input type="search" ng-model="licensePlate" ng-change="filterByLicensePlate()" name="searchByLicensePlate" class="form-control" placeholder="Search for...">
+                    <input type="search" ng-model="licensePlate" ng-change="filter()" name="searchByLicensePlate" class="form-control" placeholder="Search for...">
                 </div>
                 <div class="filter-levels">
                     <h2>Levels</h2>
                     <ul>
-                        <li ng-repeat="level in levels">                            
-                            <span ng-click="filterByLevel()"> Level {{$index + 1}}</span>
+                        <li ng-repeat="level in levels"> 
+                            <input type="checkbox" ng-model="level.enabled" ng-change="filter()" name="level.checkboxLevel" value="{{$index + 1}}"/> <span> Level {{$index + 1}}</span>
                         </li>
-                        <!--<li ng-click="filterByLevel(1)">Level 1</li>
-                        <li ng-click="filterByLevel(2)">Level 2</li>-->
                     </ul>
                 </div>
                 <div class="filter-type">
                     <h2>Type</h2>
                     <ul>
-                        <li ng-click="filterByCars()">Cars</li>
-                        <li ng-click="filterByMotobikes()">Motobikes</li>
+                        <li>
+                            <input type="checkbox" ng-model="checkboxModelType.car" ng-change="filter()" name="checkboxType" /> Cars
+                        </li>
+                        <li>
+                            <input type="checkbox" ng-model="checkboxModelType.motobike" ng-change="filter()" name="checkboxType" /> Motobikes
+                        </li>
                     </ul>
                 </div>
             </div>
             <div class="content col-md-9" >
                                
                 <ul class="vehicles">
-                    <h2> {{currentPage}} / {{vehicles.length / itemsPerPage}} - {{vehicles.length}} vehicles </h2>
+                    <h2> {{currentPage}} / {{numPages}} - {{vehicles.length}} vehicles  </h2>
 
                     <li ng-repeat="vehicle in filteredVehicles" class="">                    
                         <div class="left-side">

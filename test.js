@@ -367,7 +367,7 @@ describe("GarageJS", function() {
                 {licensePlate: "LOM - 8970", type: "motobike", slot: 3, level: 1}
             ];
                         
-            expect(garage.filterByLevel(1)).to.deep.equal(vehicleList);
+            expect(garage.filterByLevel([1])).to.deep.equal(vehicleList);
         });
         
         it("filter by cars", function() {            
@@ -414,6 +414,79 @@ describe("GarageJS", function() {
             expect(garage.countLevels()).to.equal(2);
         });
         
+        it("filter level 1 or level 3", function() {            
+            var garage = new Garage([[1,1],[2,1],[2,1],[2,2]]);
+             
+            garage.tryToParkVehicle(new Vehicle("ZM - 1345","car")); //1
+            garage.tryToParkVehicle(new Vehicle("K - 1345","car"));  //2
+            garage.tryToParkVehicle(new Vehicle("X - 111","car"));   //2        
+            garage.tryToParkVehicle(new Vehicle("J - 543","car"));   //3
+            garage.tryToParkVehicle(new Vehicle("XX - 33333","car"));//3
+            garage.tryToParkVehicle(new Vehicle("K - 543","car"));   //4
+            garage.tryToParkVehicle(new Vehicle("X - 33333","car")); //4
+            garage.tryToParkVehicle(new Vehicle("K - X 672","motobike")); //1
+            garage.tryToParkVehicle(new Vehicle("KL - K 89","motobike")); //2
+            garage.tryToParkVehicle(new Vehicle("KL - X 52","motobike")); //3
+            garage.tryToParkVehicle(new Vehicle("KL - K 26","motobike")); //4
+            garage.tryToParkVehicle(new Vehicle("LOM - 8970","motobike")) //4
+        
+            var vehicleList = [
+                {licensePlate: "ZM - 1345", type: "car", slot: 0, level: 1},           
+                {licensePlate: "K - X 672", type: "motobike", slot: 1, level: 1},
+                {licensePlate: "J - 543", type: "car", slot: 0, level: 3},
+                {licensePlate: "XX - 33333", type: "car", slot: 1, level: 3},
+                {licensePlate: "KL - X 52", type: "motobike", slot: 2, level: 3}
+            ]
+            
+            expect(garage.filterByLevel([1,3])).to.deep.equal(vehicleList);
+        });
+        
+        it("filter level 1 or level 3 and motobike", function() {            
+            var garage = new Garage([[1,1],[2,1],[2,1],[2,2]]);
+             
+            garage.tryToParkVehicle(new Vehicle("ZM - 1345","car")); //1
+            garage.tryToParkVehicle(new Vehicle("K - 1345","car"));  //2
+            garage.tryToParkVehicle(new Vehicle("X - 111","car"));   //2        
+            garage.tryToParkVehicle(new Vehicle("J - 543","car"));   //3
+            garage.tryToParkVehicle(new Vehicle("XX - 33333","car"));//3
+            garage.tryToParkVehicle(new Vehicle("K - 543","car"));   //4
+            garage.tryToParkVehicle(new Vehicle("X - 33333","car")); //4
+            garage.tryToParkVehicle(new Vehicle("K - X 672","motobike")); //1
+            garage.tryToParkVehicle(new Vehicle("KL - K 89","motobike")); //2
+            garage.tryToParkVehicle(new Vehicle("KL - X 52","motobike")); //3
+            garage.tryToParkVehicle(new Vehicle("KL - K 26","motobike")); //4
+            garage.tryToParkVehicle(new Vehicle("LOM - 8970","motobike")) //4
+        
+            var vehicleList = [
+                {licensePlate: "K - X 672", type: "motobike", slot: 1, level: 1},
+                {licensePlate: "KL - X 52", type: "motobike", slot: 2, level: 3}
+            ]
+            
+            expect(garage.filterByLevelType([1,3],["motobike"])).to.deep.equal(vehicleList);
+        });
+        
+        it("filter level 1 or level 3 and motobike and L", function() {            
+            var garage = new Garage([[1,1],[2,1],[2,1],[2,2]]);
+             
+            garage.tryToParkVehicle(new Vehicle("ZM - 1345","car")); //1
+            garage.tryToParkVehicle(new Vehicle("K - 1345","car"));  //2
+            garage.tryToParkVehicle(new Vehicle("X - 111","car"));   //2        
+            garage.tryToParkVehicle(new Vehicle("J - 543","car"));   //3
+            garage.tryToParkVehicle(new Vehicle("XX - 33333","car"));//3
+            garage.tryToParkVehicle(new Vehicle("K - 543","car"));   //4
+            garage.tryToParkVehicle(new Vehicle("X - 33333","car")); //4
+            garage.tryToParkVehicle(new Vehicle("K - X 672","motobike")); //1
+            garage.tryToParkVehicle(new Vehicle("KL - K 89","motobike")); //2
+            garage.tryToParkVehicle(new Vehicle("KL - X 52","motobike")); //3
+            garage.tryToParkVehicle(new Vehicle("KL - K 26","motobike")); //4
+            garage.tryToParkVehicle(new Vehicle("LOM - 8970","motobike")) //4
+        
+            var vehicleList = [
+                {licensePlate: "KL - X 52", type: "motobike", slot: 2, level: 3}
+            ]
+            
+            expect(garage.filter([1,3],["motobike"],["L"])).to.deep.equal(vehicleList);
+        });
                 
     });
     

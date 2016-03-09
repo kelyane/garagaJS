@@ -182,8 +182,12 @@ class Garage {
         },[]);
     }
     
-    filterByLevel(levelNumber){
-        return this.levels[levelNumber-1].filterByLicensePlate("");
+    filterByLevel(levelNumbers){
+        return this.levels.filter(function(level,i){
+            return levelNumbers.includes(i+1);
+        }).reduce(function(acc, cur){
+            return acc.concat(cur.filterByLicensePlate(""));
+        },[]);
     }
     
     filterByCars(){
@@ -197,4 +201,17 @@ class Garage {
             return acc.concat(curLevel.listAllParkedMotobike());
         },[]);
     }
+    
+    filterByLevelType(levelNumbers,types){
+        return this.filterByLevel(levelNumbers).filter(function(obj){
+            return types.includes(obj.type);
+        });
+    }
+    
+    filter(levelNumbers,types,criteria){
+        return this.filterByLevelType(levelNumbers,types).filter(function(obj){
+            return obj.licensePlate.search(criteria) != -1;
+        });
+    }
+    
 }
