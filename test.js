@@ -386,7 +386,8 @@ describe("GarageJS", function() {
                 {licensePlate: "X - 111", type: "car", slot: 1, level: 2}
             ];
                         
-            expect(garage.filterByCars()).to.deep.equal(vehicleList);
+            expect(garage.filter([1,2],["car"],"")).to.deep.equal(vehicleList);
+
         });
         
         it("filter by motobikes", function() {            
@@ -405,7 +406,7 @@ describe("GarageJS", function() {
                 {licensePlate: "LOM - 8970", type: "motobike", slot: 3, level: 1}
             ];
                         
-            expect(garage.filterByMotobikes()).to.deep.equal(vehicleList);
+            expect(garage.filter([1,2],["motobike"],"")).to.deep.equal(vehicleList);
         });
         
         it("amount of levels", function() {

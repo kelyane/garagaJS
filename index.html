@@ -5,15 +5,30 @@
         <title>GarageJS</title>
         <script src="domain.js"></script>
         <script>
-            garage = new Garage([[1,5],[3,2]]);
-                
+        
+            garage = new Garage([[1,5],[3,4],[2,2],[7,2],[6,10]]);
+                            
             garage.tryToParkVehicle(new Vehicle("ZM - 1345","car"));
             garage.tryToParkVehicle(new Vehicle("K - 1345","car"));
             garage.tryToParkVehicle(new Vehicle("X - 111","car"));
             garage.tryToParkVehicle(new Vehicle("KL - X 52","motobike"));                        garage.tryToParkVehicle(new Vehicle("KL - K 26","motobike"));
             garage.tryToParkVehicle(new Vehicle("LOM - 8970","motobike"));
-            garage.tryToParkVehicle(new Vehicle("KL - K 26","motobike"));
-            
+            garage.tryToParkVehicle(new Vehicle("AA - K 26","motobike"));
+            garage.tryToParkVehicle(new Vehicle("BB - 1345","car"));
+            garage.tryToParkVehicle(new Vehicle("C - 1345","car"));
+            garage.tryToParkVehicle(new Vehicle("D - 111","car"));
+            garage.tryToParkVehicle(new Vehicle("KKS - 1345","car"));
+            garage.tryToParkVehicle(new Vehicle("JI - 1345","car"));
+            garage.tryToParkVehicle(new Vehicle("KLI - 111","car"));
+            garage.tryToParkVehicle(new Vehicle("LK - 1345","car"));
+            garage.tryToParkVehicle(new Vehicle("P - 1345","car"));
+            garage.tryToParkVehicle(new Vehicle("SD - 111","car"));
+            garage.tryToParkVehicle(new Vehicle("KS - 1345","car"));
+            garage.tryToParkVehicle(new Vehicle("JX - 1345","car"));
+            garage.tryToParkVehicle(new Vehicle("KI - 111","car"));
+            garage.tryToParkVehicle(new Vehicle("DD - X 52","motobike"));                        garage.tryToParkVehicle(new Vehicle("EF - K 26","motobike"));
+            garage.tryToParkVehicle(new Vehicle("OP - 8970","motobike"));
+            garage.tryToParkVehicle(new Vehicle("HO - K 26","motobike"));            
                 
         </script>
         <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
@@ -59,11 +74,30 @@
                     </ul>
                 </div>
             </div>
-            <div class="content col-md-9" >
-                               
+            <div class="content col-md-9" >                               
+                
+                <div class="row info"> 
+                    <div class="left">
+                        <p>{{currentPage}} </p>
+                        <p> {{numPages}} </p>
+                    </div>
+                    <div class="right">
+                        <span class="separator"> / </span>
+                        <span class="totalVehicles">{{vehicles.length}} </span>
+                        <span class="labelVehicles"> Vehicles </span>
+                        <pagination
+                            max-size="5" 
+                            items-per-page="itemsPerPage"
+                            total-items="vehicles.length" 
+                            previous-text="<"
+                            next-text=">"
+                            ng-model="currentPage" 
+                            ng-change="pageChanged()">
+                        </pagination>
+                    </div>
+                </div>
+                
                 <ul class="vehicles">
-                    <h2> {{currentPage}} / {{numPages}} - {{vehicles.length}} vehicles  </h2>
-
                     <li ng-repeat="vehicle in filteredVehicles" class="">                    
                         <div class="left-side">
                             <p>{{vehicle.licensePlate}}</p>
@@ -76,14 +110,7 @@
                     </li>
                 </ul>                
                 
-                <pagination
-                    max-size="5" 
-                    items-per-page="itemsPerPage"
-                    total-items="vehicles.length" 
-                    previous-text="<"
-                    next-text=">"
-                    ng-model="currentPage" 
-                    ng-change="pageChanged()"></pagination>
+                
                         
             </div>
         </div>

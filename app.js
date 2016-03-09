@@ -7,7 +7,7 @@
                 
         var vehicles = $scope.vehicles = garage.filterByLicensePlate("");
         
-        $scope.itemsPerPage = 2;
+        $scope.itemsPerPage = 10;
         $scope.currentPage = 1;
         $scope.filteredVehicles = []
         $scope.checkboxModelType = {

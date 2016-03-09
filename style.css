@@ -34,8 +34,45 @@ h2{
     font-weight: bold;
 }
 
+.row.info {
+    padding-left: 25px;
+    white-space: nowrap;
+}
+
+.pagination {
+    display: inline-block;
+    border-radius: 4px;
+    padding: 0;
+    margin: 0 20px;
+}
+
+.info .left, .info .right{
+    display: inline-block;
+}
+
+.info .left p{
+    display: block;
+    text-align: right;
+    padding: 0;
+    margin: 0;
+}
+
+.info .right .separator, .info .right .totalVehicles{
+    font-size: 45px;
+}
+
+.info .right .totalVehicles{
+    color: #dfdfdf;    
+    margin-left: -10px;
+}
+
+.info .right .labelVehicles{
+    text-transform: uppercase;
+}
+
 .filter-levels li, .filter-type li{
     color: red;
+    list-style: none;
 }
 
 .vehicles li{
